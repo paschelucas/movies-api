@@ -3,14 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MovieEntity } from '../db/entities/movie.entity.ts';
 import { DeleteResult, Repository } from 'typeorm';
 import { MoviesDto } from './movies.dto';
-import { RedisCacheRepository } from '../redis/redis.repository.js';
 
 @Injectable()
 export class MoviesService {
     constructor(
         @InjectRepository(MovieEntity)
         private readonly moviesRepository: Repository<MovieEntity>,
-        private readonly redisRepository: RedisCacheRepository
     ) { }
 
     public async create(newMovie: MoviesDto): Promise<MoviesDto> {
