@@ -34,7 +34,7 @@ export class UsersService {
             }
         })
 
-        if (!foundUser) throw new NotFoundException(`User with email ${email} not found`)
+        if (!foundUser) return null
 
         return {
             id: foundUser.id,

@@ -9,6 +9,8 @@ export class UsersController {
     @HttpCode(HttpStatus.CREATED)
     @Post('create')
     public async create(@Body() user: UsersDto): Promise<CreateUserResponse> {
+        console.log(123)
+
         return await this.usersService.create(user)
     }
 }

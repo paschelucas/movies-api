@@ -3,10 +3,21 @@ version: '3.8'
 services:
   postgres:
     image: postgres:latest
-    container_name: task-management-api-db
+    container_name: movies-api-db
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: task-management-api
+      POSTGRES_DB: movies-api
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 12345678
+  redis:
+    container_name: redis-cache
+    image: redis:7.0-alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
+
+volumes:
+  postgres:
+  redis:

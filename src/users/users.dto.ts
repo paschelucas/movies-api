@@ -1,7 +1,6 @@
 import { IsEmail, IsNotEmpty, IsNumber } from "class-validator"
 
 export class UsersDto {
-    @IsNumber()
     id: number
 
     @IsNotEmpty()

@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MovieEntity } from '../db/entities/movie.entity.ts';
 import { DeleteResult, Repository } from 'typeorm';
 import { MoviesDto } from './movies.dto';
+import { RedisCacheRepository } from '../redis/redis.repository.js';
 
 @Injectable()
 export class MoviesService {
     constructor(
         @InjectRepository(MovieEntity)
-        private readonly moviesRepository: Repository<MovieEntity>
+        private readonly moviesRepository: Repository<MovieEntity>,
+        private readonly redisRepository: RedisCacheRepository
     ) { }
 
     public async create(newMovie: MoviesDto): Promise<MoviesDto> {
@@ -42,7 +44,13 @@ export class MoviesService {
     }
 
     public async findAll(): Promise<MoviesDto[]> {
-        return await this.moviesRepository.find()
+        const cachedMovies: MoviesDto[] | [] = await this.redisRepository.getData('movies')
+        if (cachedMovies) return cachedMovies
+        
+        const allMovies = await this.moviesRepository.find()
+
+        await this.redisRepository.saveData(allMovies, 'movies')
+        return allMovies
     }
 
     public async update(id: number, newTitle: string): Promise<MoviesDto | null> {
