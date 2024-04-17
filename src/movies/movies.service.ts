@@ -44,12 +44,7 @@ export class MoviesService {
     }
 
     public async findAll(): Promise<MoviesDto[]> {
-        const cachedMovies: MoviesDto[] | [] = await this.redisRepository.getData('movies')
-        if (cachedMovies) return cachedMovies
-        
         const allMovies = await this.moviesRepository.find()
-
-        await this.redisRepository.saveData(allMovies, 'movies')
         return allMovies
     }
 
