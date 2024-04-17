@@ -1,10 +1,10 @@
-import { InjectRedis } from "@liaoliaots/nestjs-redis"
+import { InjectRedis } from "@liaoliaots/nestjs-redis";
 import { Injectable } from "@nestjs/common"
 import Redis from 'ioredis'
 
 @Injectable()
 export class RedisCacheRepository {
-    constructor(@InjectRedis() private readonly redis: Redis) {}
+    constructor(@InjectRedis() private readonly redis: Redis) { }
 
     async saveData<T>(data: T, key: string): Promise<void> {
 
