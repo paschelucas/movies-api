@@ -1,4 +1,4 @@
-export interface AuthResponseDto {
+export class AuthResponseDto {
     token: string
     expiresIn: number
 }

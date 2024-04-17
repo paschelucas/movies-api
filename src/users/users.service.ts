@@ -1,6 +1,6 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/db/entities/user.entity';
+import { UserEntity } from '../db/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserResponse, UsersDto } from './users.dto';
 import { hashSync as bcryptHashSync } from 'bcrypt'
@@ -34,7 +34,7 @@ export class UsersService {
             }
         })
 
-        if (!foundUser) return null
+        if (!foundUser) throw new NotFoundException(`User with email ${email} not found`)
 
         return {
             id: foundUser.id,
